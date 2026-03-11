@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { fetchTikTokVideoData, forceDownload } from '../services/api';
 import JSZip from 'jszip';
 import { t } from '../i18n';
@@ -15,6 +15,17 @@ export default function Hero({ lang }: HeroProps) {
   const [result, setResult] = useState<any>(null);
   const [titleExpanded, setTitleExpanded] = useState(false);
   const [downloadingState, setDownloadingState] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state && event.state.overlay === false) {
+        setResult(null);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const saveToHistory = (videoData: any) => {
     try {
@@ -77,6 +88,7 @@ export default function Hero({ lang }: HeroProps) {
 
     try {
       const videoData = await fetchTikTokVideoData(value);
+      window.history.pushState({ overlay: true }, '', '');
       setResult(videoData);
       saveToHistory(videoData);
     } catch (err: any) {
@@ -237,7 +249,10 @@ export default function Hero({ lang }: HeroProps) {
           {/* App Bar */}
           <div className="flex items-center px-4 h-14 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0 shadow-sm">
             <button 
-              onClick={() => setResult(null)} 
+              onClick={() => {
+                setResult(null);
+                window.history.back();
+              }} 
               className="w-10 h-10 flex items-center justify-center rounded-full active:bg-slate-100 dark:active:bg-slate-800 transition-colors"
             >
               <i className={`fas fa-arrow-${lang === 'ar' ? 'right' : 'left'} text-slate-700 dark:text-slate-300 text-lg`}></i>

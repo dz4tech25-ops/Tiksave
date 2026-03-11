@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { fetchTikTokVideoData, forceDownload } from '../services/api';
 import { t } from '../i18n';
 import { AdPlaceholder } from './AdPlaceholder';
@@ -9,6 +9,17 @@ export default function BatchDownload({ lang }: { lang: string }) {
   const [progress, setProgress] = useState({ current: 0, total: 0 });
   const [results, setResults] = useState<any[]>([]);
   const [showResults, setShowResults] = useState(false);
+
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state && event.state.batchResults === false) {
+        setShowResults(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const saveToHistory = (videoData: any) => {
     try {
@@ -25,6 +36,9 @@ export default function BatchDownload({ lang }: { lang: string }) {
   };
 
   const handleClear = () => {
+    if (showResults) {
+      window.history.back();
+    }
     setUrlsText('');
     setShowResults(false);
     setResults([]);
@@ -61,6 +75,7 @@ export default function BatchDownload({ lang }: { lang: string }) {
     }
 
     setIsProcessing(true);
+    window.history.pushState({ batchResults: true }, '', '');
     setShowResults(true);
     setResults([]);
     setProgress({ current: 0, total: urls.length });

@@ -12,6 +12,26 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('home');
 
   useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state && event.state.tab) {
+        setActiveTab(event.state.tab);
+      } else {
+        setActiveTab('home');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const handleTabChange = (tab: string) => {
+    if (tab !== activeTab) {
+      window.history.pushState({ tab }, '', '');
+      setActiveTab(tab);
+    }
+  };
+
+  useEffect(() => {
     const savedTheme = localStorage.getItem('ts-theme') || 'light';
     if (savedTheme === 'dark') {
       setIsDark(true);
@@ -50,7 +70,7 @@ export default function App() {
         </div>
       </main>
 
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} lang={lang} />
+      <BottomNav activeTab={activeTab} setActiveTab={handleTabChange} lang={lang} />
     </div>
   );
 }
