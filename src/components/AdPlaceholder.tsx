@@ -6,26 +6,41 @@ interface AdPlaceholderProps {
 }
 
 export const AdPlaceholder: React.FC<AdPlaceholderProps> = ({ type, className = '' }) => {
-  let width = '320px';
-  let height = '50px';
-  let label = 'Ad (320x50)';
+  let width = 320;
+  let height = 50;
+  let key = '';
   
-  if (type === 'large-banner') {
-    height = '100px';
-    label = 'Ad (320x100)';
+  if (type === 'banner') {
+    key = '9e254ef7021cc1ee32fbb8d9fea69c4a';
+    width = 320;
+    height = 50;
+  } else if (type === 'large-banner') {
+    // Fallback to banner if large-banner is not provided
+    key = '9e254ef7021cc1ee32fbb8d9fea69c4a';
+    width = 320;
+    height = 50;
   } else if (type === 'mrec') {
-    width = '300px';
-    height = '250px';
-    label = 'Ad (300x250)';
+    key = '259a17b1dc4e6f0e590334b578b42c40';
+    width = 300;
+    height = 250;
   }
+
+  if (!key) return null;
 
   return (
     <div 
-      className={`flex flex-col items-center justify-center bg-slate-100 dark:bg-slate-800/50 border border-dashed border-slate-300 dark:border-slate-700 text-slate-400 dark:text-slate-500 text-xs font-mono rounded-xl mx-auto overflow-hidden ${className}`}
-      style={{ width: '100%', maxWidth: width, height, minHeight: height }}
+      className={`flex flex-col items-center justify-center mx-auto overflow-hidden ${className}`}
+      style={{ width: '100%', maxWidth: `${width}px`, height: `${height}px`, minHeight: `${height}px` }}
     >
-      <i className="fas fa-ad mb-1 opacity-50"></i>
-      {label}
+      <iframe
+        src={`/ad.html?key=${key}&width=${width}&height=${height}`}
+        width={width}
+        height={height}
+        frameBorder="0"
+        scrolling="no"
+        style={{ border: 'none', overflow: 'hidden' }}
+        title="Advertisement"
+      />
     </div>
   );
 };

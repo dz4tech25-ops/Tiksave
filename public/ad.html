@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; background: transparent; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const key = urlParams.get('key');
+    const width = urlParams.get('width');
+    const height = urlParams.get('height');
+
+    if (key && width && height) {
+      document.write('<scr' + 'ipt type="text/javascript">');
+      document.write('atOptions = {');
+      document.write("  'key' : '" + key + "',");
+      document.write("  'format' : 'iframe',");
+      document.write("  'height' : " + height + ",");
+      document.write("  'width' : " + width + ",");
+      document.write("  'params' : {}");
+      document.write('};');
+      document.write('</scr' + 'ipt>');
+      document.write('<scr' + 'ipt type="text/javascript" src="https://www.highperformanceformat.com/' + key + '/invoke.js"></scr' + 'ipt>');
+    }
+  </script>
+</body>
+</html>
