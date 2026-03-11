@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-50: #ecfeff;
+  --color-brand-100: #cffafe;
+  --color-brand-200: #a5f3fc;
+  --color-brand-300: #67e8f9;
+  --color-brand-400: #22d3ee;
+  --color-brand-500: #06b6d4;
+  --color-brand-600: #0891b2;
+  --color-brand-700: #0e7490;
+  --color-brand-800: #155e75;
+  --color-brand-900: #164e63;
+  --shadow-glow: 0 0 0 6px rgba(14,165,233,0.15);
+}
+
+@layer base {
+  html, body {
+    @apply antialiased text-slate-800 bg-slate-50 dark:bg-slate-950 dark:text-slate-100;
+    touch-action: manipulation;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .slide-up-overlay {
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  .bg-grid {
+    background-image: radial-gradient(circle at 1px 1px, rgba(14,165,233,.2) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+  
+  .loading-spinner {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+  
+  .loading-spinner div {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #06b6d4;
+    animation: loading-spinner 1.2s linear infinite;
+  }
+  
+  @keyframes loading-spinner {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.5); opacity: 0.5; }
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    direction: ltr;
+    position: relative;
+  }
+  
+  .tik-text, .save-text {
+    font-weight: 700;
+    color: #000;
+    transition: color 0.3s ease;
+  }
+  
+  .dark .tik-text, .dark .save-text {
+    color: #fff;
+  }
+  
+  .save-text {
+    position: relative;
+  }
+  
+  .pro-text {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 600;
+    top: -8px; 
+    right: -18px; 
+    color: #06b6d4;
+    white-space: nowrap;
+  }
+  
+  .btn-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: btn-spin 0.75s linear infinite;
+  }
+  
+  @keyframes btn-spin {
+    to { transform: rotate(360deg); }
+  }
+}

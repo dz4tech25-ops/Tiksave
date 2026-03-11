@@ -1,0 +1,16 @@
+{
+  "name": "TikTok HD Video Downloader",
+  "short_name": "TikSave",
+  "description": "Download TikTok videos in HD quality and MP3 audio for free. Fast, secure, and easy to use on all devices.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9",
+  "icons": [
+    {
+      "src": "https://tiksave.pro/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
