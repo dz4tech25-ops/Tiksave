@@ -18,7 +18,7 @@ export default function Hero({ lang }: HeroProps) {
 
   useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
-      if (event.state && event.state.overlay === false) {
+      if (!event.state || !event.state.overlay) {
         setResult(null);
       }
     };

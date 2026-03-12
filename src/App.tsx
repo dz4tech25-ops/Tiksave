@@ -12,11 +12,19 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('home');
 
   useEffect(() => {
+    // Initial state to prevent exit on first back press
+    if (!window.history.state) {
+      window.history.replaceState({ tab: 'home' }, '', '');
+    }
+
     const handlePopState = (event: PopStateEvent) => {
       if (event.state && event.state.tab) {
         setActiveTab(event.state.tab);
       } else {
+        // If we hit the beginning of history, stay on home
         setActiveTab('home');
+        // Optionally push state again to keep the trap
+        window.history.pushState({ tab: 'home' }, '', '');
       }
     };
 

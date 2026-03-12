@@ -12,7 +12,7 @@ export default function BatchDownload({ lang }: { lang: string }) {
 
   useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
-      if (event.state && event.state.batchResults === false) {
+      if (!event.state || !event.state.batchResults) {
         setShowResults(false);
       }
     };
